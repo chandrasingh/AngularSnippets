@@ -4,7 +4,10 @@
 <body>
 	<p ng-controller="dummyController">{{title}}</p>
 	<div ng-controller="ShoppingController">
-		<h1>{{title | case}}</h1>
+		Normal: <h1>{{title }}</h1>
+		Title Case: <h1>{{title | case }}</h1>
+		Upper Case: <h1>{{title | case : "lower"}}</h1>
+		Lower Case: <h1>{{title | case : "upper"}}</h1>
 		<table>
 			<tr ng-repeat="item in items">
 				<td>{{item.title}}</td>
@@ -23,9 +26,8 @@
 	var myAppModule = angular.module("myApp",[]);
 	
 	myAppModule.filter("case", function(){
-		var caseFilter = function(input){
-			var returnValue;
-			var param = "";
+		var caseFilter = function(input, param){
+			var returnValue = input.toLowerCase();
 			switch(param){
 				case "upper":
 					returnValue = input.toUpperCase();
@@ -35,10 +37,9 @@
 				break;
 				default:
 					var words = input.split(" ");
-					for(var index = 0; index<words.length; index++){
-						words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1);
-					}
-					
+					for(var index = 0; index < words.length; index++){
+						words[index] = words[index].charAt(0).toUpperCase() + words[index].slice(1).toLowerCase();
+					}					
 					returnValue = words.join(" ");
 			}
 			
@@ -65,7 +66,7 @@
 	
 	myAppModule.controller("ShoppingController", function ($scope, Items) {
 		$scope.items = Items.query();
-		$scope.title = "enjoy your shopping!!!"
+		$scope.title = "enjoy yOUr shopping!!!"
 	});
 </script>
 </body>	

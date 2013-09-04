@@ -1,0 +1,40 @@
+<html ng-app = "myApp">
+<head>
+	<title>example for $watch</title>
+</head>
+<body>
+	<div ng-controller="formController">
+		<input ng-model="data.value" ></input>
+		<p>{{data.calculatedValue}}</p>
+	<div />
+	<div ng-controller="repeatController">
+		<ul>
+			<li ng-repeat="student in students">
+				Name: {{student.name}}<br>id: {{student.id}}<br>$index: {{$index}}
+			</li>
+		</ul>
+		
+	<div /> 
+	<script src="resources/js/angular.min.js"></script>
+	<script>
+	var students = 	[{name:'Mary Contrary', id:'1'},
+					{name:'Jack Sprat', id:'2'},
+					{name:'Jill Hill', id:'3'}];
+					
+	var myAppModule = angular.module('myApp', []);
+	myAppModule.controller("formController", function ($scope) {
+		$scope.data = {value: 3, calculatedValue: 0};
+		
+		calculateNewValue = function (){
+			$scope.data.calculatedValue = $scope.data.value*2;
+		}
+		
+		$scope.$watch("data.value", calculateNewValue)
+	})
+	
+	myAppModule.controller("repeatController", function ($scope) {
+		$scope.students = students;
+	})
+	</script>
+</body>
+</html>
